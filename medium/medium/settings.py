@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'taggit',
     'main',
     'rest_framework',
+    'django_elasticsearch_dsl'
     
 ]
 
@@ -118,6 +119,13 @@ REST_FRAMEWORK = {
     'drf_link_header_pagination.LinkHeaderPagination',
     'PAGE_SIZE': 1
 }
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
+} 
+
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
 #     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),

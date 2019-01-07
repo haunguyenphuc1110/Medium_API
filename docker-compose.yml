@@ -1,6 +1,11 @@
 version: '3.7'
 
 services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.0
+    ports:
+      - 9200:9200
+      - 9300:9300
   db:
     image: postgres:10.1-alpine
     volumes:
@@ -14,6 +19,8 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - elasticsearch
+      
 
 volumes:
   postgres_data:
