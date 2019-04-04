@@ -8,7 +8,6 @@ from . import documents
 from elasticsearch_dsl.query import MultiMatch
 
 
-
 class IsAdmindNotGet(IsAdminUser):
     """
     If request == get >  >  > just request = get not authen, other request must admin
@@ -25,9 +24,10 @@ class PostList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     serializer_class = PostSerializer
     # permission_classes = (IsAdmindNotGet, )
     keyword_fields = ['title',
-            'slug',
-            'body',
-            'publish',]
+                      'slug',
+                      'body',
+                      'publish', ]
+
     def get_queryset(self):
         qs = self.request.query_params.get('q', None)
         if qs is None:
@@ -35,13 +35,15 @@ class PostList(viewsets.GenericViewSet, generics.ListCreateAPIView):
 
         words = qs.split(',')
         search = documents.PostDocument.search()
-        match = MultiMatch(query=' '.join(words), fields=self.keyword_fields, type='best_fields')
+        match = MultiMatch(query=' '.join(
+            words), fields=self.keyword_fields, type='best_fields')
         # q = Q('nested', path='skills', query=Q('match', skills__name=qs)) | Q(match)
         search = search.query(match)
         return search.to_queryset()
 
 
-class PostDetail(viewsets.GenericViewSet, generics.RetrieveUpdateDestroyAPIView):
+class PostDetail(viewsets.GenericViewSet,
+                 generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.published.all()
     serializer_class = PostSerializer
 
@@ -52,12 +54,14 @@ class CommentList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     # permission_classes = (IsAdmindNotGet, )
 
 
-class CommentDetail(viewsets.GenericViewSet, generics.RetrieveUpdateDestroyAPIView):
+class CommentDetail(viewsets.GenericViewSet,
+                    generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     # permission_classes = (IsAdmindNotGet, )
 
 
-class TagList(viewsets.GenericViewSet, generics.ListCreateAPIView):
+class TagList(viewsets.GenericViewSet,
+              generics.ListCreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

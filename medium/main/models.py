@@ -34,22 +34,22 @@ class Post(models.Model):
                                related_name='blog_posts',
                                on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag,
-                               related_name='tag_posts',
-                               on_delete=models.CASCADE)
+                            related_name='tag_posts',
+                            on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10,
-                                 choices=STATUS_CHOICES,
-                                 default='draft')
+                              choices=STATUS_CHOICES,
+                              default='draft')
 
     def get_absolute_url(self):
-            return reverse('blog:post_detail',
-                           args=[self.publish.year,
-                                 self.publish.strftime('%m'),
-                                 self.publish.strftime('%d'),
-                                 self.slug])
+        return reverse('blog:post_detail',
+                       args=[self.publish.year,
+                             self.publish.strftime('%m'),
+                             self.publish.strftime('%d'),
+                             self.slug])
 
     class Meta:
         ordering = ('-publish',)
