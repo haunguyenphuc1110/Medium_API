@@ -85,10 +85,11 @@ WSGI_APPLICATION = 'medium.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',  # set in docker-compose.yml
-        'PORT': 5432  # default postgres port
+        'NAME': 'sendodb',
+        'USER': 'ted',
+        'PASSWORD':'ted',
+        'HOST': '172.24.0.1',  # set in docker-compose.yml
+        'PORT': 54320  # default postgres port
     }
 }
 
@@ -117,7 +118,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS':
     'drf_link_header_pagination.LinkHeaderPagination',
-    'PAGE_SIZE': 1
+    'PAGE_SIZE': 10
 }
 
 ELASTICSEARCH_DSL = {

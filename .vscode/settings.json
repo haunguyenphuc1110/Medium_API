@@ -1,6 +1,7 @@
 {
-    "python.pythonPath": "/usr/local/bin/python3",
+    "python.pythonPath": "/home/ngochieu642/.virtualenvs/dataScience/bin/python",
     "python.linting.pylintEnabled": false,
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.enabled": false,
+    "python.linting.flake8Enabled": true
 }

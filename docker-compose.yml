@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   elasticsearch:
@@ -6,10 +6,17 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-  db:
-    image: postgres:10.1-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    deploy:
+      resources:
+        limits:
+          memory: 200m
+        reservations:
+          memory: 20m
+
+  # db:
+  #   image: postgres:10.1-alpine
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data/
   web:
     build: .
     command: python /code/medium/manage.py runserver 0.0.0.0:8000
@@ -18,9 +25,7 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - db
+      # - db
       - elasticsearch
-      
-
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:

@@ -18,22 +18,46 @@ from taggit.models import Tag
 #             'modified',
 #             'pub_date',
 #         )
-class PostSerializer(serializers.ModelSerializer):
+# class PostSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Post
+#         fields = '__all__'
+#         depth = 1
+
+
+# class CommentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Comment
+#         fields = '__all__'
+#         depth = 1
+
+
+# class TagSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Tag
+#         fields = '__all__'
+#         depth = 1
+
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post
+        model = Category
         fields = '__all__'
         depth = 1
 
-
-class CommentSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = Users
         fields = '__all__'
         depth = 1
 
-
-class TagSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tag
+        model = Products
+        fields = '__all__'
+        depth = 1
+
+class CateProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CateProduct
         fields = '__all__'
         depth = 1

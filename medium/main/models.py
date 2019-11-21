@@ -1,75 +1,56 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-from django.utils import timezone
 
-from django.contrib.auth.models import User
-
-from django.urls import reverse
-
-from taggit.managers import TaggableManager
-from taggit.models import Tag
-
-
-class PublishedManager(models.Manager):
-    def get_queryset(self):
-        return super(PublishedManager,
-                     self).get_queryset()\
-                          .filter(status='published')
-
-
-class Post(models.Model):
-     # Our custom manager.
-    tags = TaggableManager()
-
-    STATUS_CHOICES = (
-        ('draft', 'Draft'),
-        ('published', 'Published')
-    )
-    objects = models.Manager()  # The default manager.
-    published = PublishedManager()
-    title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250,
-                            unique_for_date='publish')
-    author = models.ForeignKey(User,
-                               related_name='blog_posts',
-                               on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag,
-                            related_name='tag_posts',
-                            on_delete=models.CASCADE)
-    body = models.TextField()
-    publish = models.DateTimeField(default=timezone.now)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=10,
-                              choices=STATUS_CHOICES,
-                              default='draft')
-
-    def get_absolute_url(self):
-        return reverse('blog:post_detail',
-                       args=[self.publish.year,
-                             self.publish.strftime('%m'),
-                             self.publish.strftime('%d'),
-                             self.slug])
+class CateProduct(models.Model):
+    cate3_id_new = models.ForeignKey('Category', models.DO_NOTHING, db_column='cate3_id_new')
+    product = models.ForeignKey('Products', models.DO_NOTHING)
 
     class Meta:
-        ordering = ('-publish',)
-
-    def __str__(self):
-        return self.title
+        managed = False
+        db_table = 'cate_product'
 
 
-class Comment(models.Model):
-    post = models.ForeignKey(
-        Post, related_name='comments', on_delete=models.CASCADE)
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=True)
+class Category(models.Model):
+    cate3_id_new = models.CharField(primary_key=True, max_length=80)
+    cate1_id = models.CharField(max_length=80)
+    cate1_name = models.TextField()
+    cate2_id = models.CharField(max_length=80)
+    cate2_name = models.TextField()
+    cate3_id = models.CharField(max_length=80)
+    cate3_name = models.TextField()
 
     class Meta:
-        ordering = ('created',)
+        managed = False
+        db_table = 'category'
 
-    def __str__(self):
-        return 'Comment by {} on {}'.format(self.name, self.post)
+
+class Products(models.Model):
+    product_id = models.CharField(primary_key=True, max_length=80)
+    product_name = models.TextField()
+    uri = models.TextField(blank=True, null=True)
+    oldprice = models.IntegerField(blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True)
+    status = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'products'
+
+
+class Users(models.Model):
+    user_id = models.CharField(primary_key=True, max_length=80)
+    username = models.CharField(unique=True, max_length=50, blank=True, null=True)
+    password = models.CharField(max_length=50, blank=True, null=True)
+    mac_address = models.CharField(max_length=50, blank=True, null=True)
+    last_activity = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'users'

@@ -19,5 +19,5 @@ class CommentAdmin(admin.ModelAdmin):
        search_fields = ('name', 'email', 'body')
 
 
-admin.site.register(Post,PostAdmin)
-admin.site.register(Comment,CommentAdmin)
+# admin.site.register(Post,PostAdmin)
+# admin.site.register(Comment,CommentAdmin)

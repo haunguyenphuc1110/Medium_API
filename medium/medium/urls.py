@@ -25,11 +25,10 @@ from rest_framework_simplejwt.views import (
 
 
 router = routers.SimpleRouter()
-router.register('posts', view.PostList, base_name="posts")
-router.register('post', view.PostDetail, base_name="posts")
-router.register('comments', view.CommentList, base_name="comments")
-router.register('comments', view.CommentDetail, base_name="comments")
-router.register('tags', view.TagList, base_name="tags")
+router.register('category', view.CategoryList, base_name="category")
+router.register('products', view.ProductList, base_name="product")
+router.register('users', view.UserList, base_name="user")
+router.register('cateprod', view.CateProductList, base_name="cateprod")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
