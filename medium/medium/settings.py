@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
+
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'taggit',
     'main',
     'rest_framework',
-    'django_elasticsearch_dsl'
-    
+    # 'django_elasticsearch_dsl'
+
 ]
 
 MIDDLEWARE = [
@@ -87,8 +87,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'HOST': 'db', # set in docker-compose.yml
-        'PORT': 5432 # default postgres port
+        'HOST': 'db',  # set in docker-compose.yml
+        'PORT': 5432  # default postgres port
     }
 }
 
@@ -124,7 +124,7 @@ ELASTICSEARCH_DSL = {
     'default': {
         'hosts': 'elasticsearch:9200'
     },
-} 
+}
 
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
