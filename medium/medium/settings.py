@@ -27,7 +27,7 @@ SECRET_KEY = 'ukl0pi#w@a%dtpc0s2&zc_vf52)_vp7&5*=&(fne&2qh=x$r%e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['165.22.97.19']
 
 
 # Application definition
@@ -87,9 +87,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sendodb',
         'USER': 'ted',
-        'PASSWORD':'ted',
-        'HOST': '172.24.0.1',  # set in docker-compose.yml
-        'PORT': 54320  # default postgres port
+	'PASSWORD':'ted',
+        'HOST': 'db',  # set in docker-compose.yml
+        'PORT': 5432  # default postgres port
     }
 }
 

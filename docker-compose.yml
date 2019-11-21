@@ -13,10 +13,13 @@ services:
         reservations:
           memory: 20m
 
-  # db:
-  #   image: postgres:10.1-alpine
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data/
+  db:
+    image: postgres:12
+    volumes:
+      - pgdata12:/var/lib/postgresql/data/
+    env_file: .env
+    ports:
+      - 5432:5432
   web:
     build: .
     command: python /code/medium/manage.py runserver 0.0.0.0:8000
@@ -25,7 +28,7 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      # - db
+      - db
       - elasticsearch
-# volumes:
-#   postgres_data:
+volumes:
+   pgdata12:
