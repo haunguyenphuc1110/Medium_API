@@ -7,6 +7,9 @@ from rest_framework.permissions import IsAdminUser
 from . import documents
 from elasticsearch_dsl.query import MultiMatch
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
 
 # class IsAdmindNotGet(IsAdminUser):
 #     """
@@ -66,23 +69,41 @@ from elasticsearch_dsl.query import MultiMatch
 #     queryset = Tag.objects.all()
 #     serializer_class = TagSerializer
 
-class CategoryList(viewsets.GenericViewSet,
-              generics.ListCreateAPIView):
+
+class CategoryList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class ProductList(viewsets.GenericViewSet,
-              generics.ListCreateAPIView):
-    queryset = Products.objects.all()
+
+class ProductList(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = Products.objects.filter(status=200)
     serializer_class = ProductSerializer
 
-class UserList(viewsets.GenericViewSet,
-              generics.ListCreateAPIView):
+
+class UserList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
 
-class CateProductList(viewsets.GenericViewSet,
-              generics.ListCreateAPIView):
-    queryset = Products.objects.all()
+
+class CateProductList(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = CateProduct.objects.all()
     serializer_class = CateProductSerializer
 
+
+class PopularityList(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = Products.objects.filter(status=200).order_by("-value_count")[:100]
+    serializer_class = ProductSerializer
+
+
+class Category_1(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = Category.objects.order_by().values("cate1_id", "cate1_name").distinct()
+    serializer_class = Category_1_Serializer
+
+
+# class TopCat1(APIView):
+#     def get(self, request, format=None):
+#         return Response("hello world")
+
+
+# class Cate1_Product(viewsets.GenericViewSet, generics.ListCreateAPIView):
+#     queryset = CateProduct.objects.filter(cate3_new_id.cate1_id=1108)
