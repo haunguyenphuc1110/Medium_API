@@ -25,15 +25,30 @@ from rest_framework_simplejwt.views import (
 
 
 router = routers.SimpleRouter()
-router.register('category', view.CategoryList, base_name="category")
-router.register('products', view.ProductList, base_name="product")
-router.register('users', view.UserList, base_name="user")
-router.register('cateprod', view.CateProductList, base_name="cateprod")
+
+# Basic Route
+router.register("category", view.CategoryList, base_name="category")
+router.register("users", view.UserList, base_name="user")
+router.register("cateprod", view.CateProductList, base_name="cateprod")
+router.register("products", view.ProductList, base_name="product")
+
+# Popular
+router.register("products/popularity", view.PopularityList, base_name="popularity")
+
+# Cate 1
+router.register("category_1", view.Category_1, basename="category_1")
+
+# router.register("topcate1", view.TopCat1)
+
+# router.register(r"topcat1/", view.TopCat1, base_name="TopCat1")
+# urlpatterns = [
+#     url(r"^topcat1/$", view.TopCat1.as_view()),
+# ]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("admin/", admin.site.urls),
+    path("api/v1/", include(router.urls)),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
