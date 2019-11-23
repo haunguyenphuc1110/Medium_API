@@ -83,6 +83,9 @@ class UserList(viewsets.GenericViewSet,
 
 class CateProductList(viewsets.GenericViewSet,
               generics.ListCreateAPIView):
-    queryset = Products.objects.all()
+    queryset = CateProduct.objects.all()
     serializer_class = CateProductSerializer
 
+class PopularityList(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = Products.objects.filter(status=200).order_by("-value_count")[:100]
+    serializer_class = ProductSerializer

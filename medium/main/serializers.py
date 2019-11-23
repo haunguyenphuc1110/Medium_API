@@ -60,4 +60,4 @@ class CateProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = CateProduct
         fields = '__all__'
-        depth = 1
+        depth = 2

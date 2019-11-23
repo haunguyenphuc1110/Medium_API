@@ -29,6 +29,7 @@ router.register('category', view.CategoryList, base_name="category")
 router.register('products', view.ProductList, base_name="product")
 router.register('users', view.UserList, base_name="user")
 router.register('cateprod', view.CateProductList, base_name="cateprod")
+router.register("products/popularity", view.PopularityList, base_name="popularity")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,3 +38,4 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+

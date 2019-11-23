@@ -38,6 +38,7 @@ class Products(models.Model):
     oldprice = models.IntegerField(blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
+    value_count = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
