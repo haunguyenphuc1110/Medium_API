@@ -6,15 +6,17 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+# add comment
 
 class CateProduct(models.Model):
-    cate3_id_new = models.ForeignKey('Category', models.DO_NOTHING, db_column='cate3_id_new')
-    product = models.ForeignKey('Products', models.DO_NOTHING)
+    cate3_id_new = models.ForeignKey(
+        "Category", models.DO_NOTHING, db_column="cate3_id_new", related_name="category"
+    )
+    product = models.ForeignKey("Products", models.DO_NOTHING, related_name="product")
 
     class Meta:
         managed = False
-        db_table = 'cate_product'
+        db_table = "cate_product"
 
 
 class Category(models.Model):
@@ -28,7 +30,7 @@ class Category(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'category'
+        db_table = "category"
 
 
 class Products(models.Model):
@@ -38,10 +40,11 @@ class Products(models.Model):
     oldprice = models.IntegerField(blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
+    value_count = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'products'
+        db_table = "products"
 
 
 class Users(models.Model):
@@ -53,4 +56,15 @@ class Users(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'users'
+        db_table = "users"
+
+
+# Not in Database class
+class Category_1(models.Model):
+    cate1_id = models.CharField(max_length=80)
+    cate1_name = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = "category"
+

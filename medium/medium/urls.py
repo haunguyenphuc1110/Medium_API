@@ -25,15 +25,42 @@ from rest_framework_simplejwt.views import (
 
 
 router = routers.SimpleRouter()
-router.register('category', view.CategoryList, base_name="category")
-router.register('products', view.ProductList, base_name="product")
-router.register('users', view.UserList, base_name="user")
-router.register('cateprod', view.CateProductList, base_name="cateprod")
+
+# Basic Route
+router.register("category", view.CategoryList, base_name="category")
+router.register("users", view.UserList, base_name="user")
+router.register("cateprod", view.CateProductList, base_name="cateprod")
+router.register("products", view.ProductList, base_name="product")
+
+# Popular
+router.register("products/popularity", view.PopularityList, base_name="popularity")
+
+# Cate 1
+router.register("category_1", view.Category_1, basename="category_1")
+
+# Top 10 Cate 1
+# router.register(
+#     "r'^category/(?P<cate1_id>\w{0,50})/$'",
+#     view.Category_1_top10.as_view(),
+#     base_name="top10_cat1",
+# )
+
+# router.register("topcate1", view.TopCat1)
+
+# router.register(r"topcat1/", view.TopCat1, base_name="TopCat1")
+# urlpatterns = [
+#     url(r"^topcat1/$", view.TopCat1.as_view()),
+# ]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("admin/", admin.site.urls),
+    path("api/v1/", include(router.urls)),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("category/prod/first/<str:cate1_id>/", view.Category_prod_1_top.as_view()),
+    path("category/prod/second/<str:cate2_id>/", view.Category_prod_2_top.as_view()),
+    path("category/prod/third/<str:cate3_id>/", view.Category_prod_3_top.as_view()),
+    path("category/cate/first/<str:cate1_id>/", view.Category_cate_1_top.as_view()),
+    path("category/cate/second/<str:cate2_id>/", view.Category_cate_2_top.as_view()),
 ]
