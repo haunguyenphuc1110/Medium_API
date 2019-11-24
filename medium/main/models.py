@@ -10,9 +10,9 @@ from django.db import models
 
 class CateProduct(models.Model):
     cate3_id_new = models.ForeignKey(
-        "Category", models.DO_NOTHING, db_column="cate3_id_new"
+        "Category", models.DO_NOTHING, db_column="cate3_id_new", related_name="category"
     )
-    product = models.ForeignKey("Products", models.DO_NOTHING)
+    product = models.ForeignKey("Products", models.DO_NOTHING, related_name="product")
 
     class Meta:
         managed = False

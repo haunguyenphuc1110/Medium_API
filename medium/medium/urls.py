@@ -38,6 +38,13 @@ router.register("products/popularity", view.PopularityList, base_name="popularit
 # Cate 1
 router.register("category_1", view.Category_1, basename="category_1")
 
+# Top 10 Cate 1
+# router.register(
+#     "r'^category/(?P<cate1_id>\w{0,50})/$'",
+#     view.Category_1_top10.as_view(),
+#     base_name="top10_cat1",
+# )
+
 # router.register("topcate1", view.TopCat1)
 
 # router.register(r"topcat1/", view.TopCat1, base_name="TopCat1")
@@ -51,4 +58,6 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    # path("r'^category/(?P<cate1_id>\w{0,50})$'", view.Category_1_top10.as_view()),
+    path("category/<str:cate1_id>/", view.Category_1_top10.as_view()),
 ]
