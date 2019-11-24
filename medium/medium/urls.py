@@ -58,6 +58,9 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    # path("r'^category/(?P<cate1_id>\w{0,50})$'", view.Category_1_top10.as_view()),
-    path("category/<str:cate1_id>/", view.Category_1_top10.as_view()),
+    path("category/prod/first/<str:cate1_id>/", view.Category_prod_1_top.as_view()),
+    path("category/prod/second/<str:cate2_id>/", view.Category_prod_2_top.as_view()),
+    path("category/prod/third/<str:cate3_id>/", view.Category_prod_3_top.as_view()),
+    path("category/cate/first/<str:cate1_id>/", view.Category_cate_1_top.as_view()),
+    path("category/cate/second/<str:cate2_id>/", view.Category_cate_2_top.as_view()),
 ]

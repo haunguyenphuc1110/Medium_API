@@ -13,6 +13,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 
+from . import utils
+
 # class IsAdmindNotGet(IsAdminUser):
 #     """
 #     If request == get >  >  > just request = get not authen, other request must admin
@@ -103,41 +105,73 @@ class Category_1(viewsets.GenericViewSet, generics.ListCreateAPIView):
     serializer_class = Category_1_Serializer
 
 
-# Top 10 of cate 1 id
-class Category_1_top10(APIView):
-    queryset = Products.objects.all()
-
+# Top products of cate 1,2,3 id
+class Category_prod_1_top(APIView):
     def get(self, request, cate1_id, format=None):
         catObjList = Category.objects.filter(cate1_id=cate1_id).all()
         list_cate3_id_new = list(map(lambda x: x.cate3_id_new, catObjList))
-        listProductID = self.getAllProduct_fromListCate3(list_cate3_id_new)
+        listProductID = utils.getAllProduct_fromListCate3(list_cate3_id_new)
         listProductInfo = Products.objects.filter(
             pk__in=listProductID, status=200
         ).order_by("-value_count")[:100]
 
         products = [product.product_id for product in listProductInfo]
         serializer = ProductSerializer(listProductInfo, many=True)
-        # print("listProductInfo: ", listProductInfo)
 
-        # products = [
-        #     product.product_id
-        #     for product in Products.objects.filter(status=200).order_by("-value_count")[
-        #         :100
-        #     ]
-        # ]
-
-        # return Response(products)
         return Response(serializer.data)
 
-    def get_product_from_cate3_new(self, inputID):
-        tempSet = CateProduct.objects.filter(cate3_id_new=inputID).all()
-        return list(map(lambda x: x.product_id, tempSet))
 
-    def getAllProduct_fromListCate3(self, inputID_list):
-        returnArr = []
-        for i in inputID_list:
-            returnArr += self.get_product_from_cate3_new(i)
-        return returnArr
+class Category_prod_2_top(APIView):
+    def get(self, request, cate2_id, format=None):
+        catObjList = Category.objects.filter(cate2_id=cate2_id).all()
+        list_cate3_id_new = list(map(lambda x: x.cate3_id_new, catObjList))
+        listProductID = utils.getAllProduct_fromListCate3(list_cate3_id_new)
+        listProductInfo = Products.objects.filter(
+            pk__in=listProductID, status=200
+        ).order_by("-value_count")[:100]
+
+        products = [product.product_id for product in listProductInfo]
+        serializer = ProductSerializer(listProductInfo, many=True)
+
+        return Response(serializer.data)
+
+
+class Category_prod_3_top(APIView):
+    def get(self, request, cate3_id, format=None):
+        catObjList = Category.objects.filter(cate3_id=cate3_id).all()
+        list_cate3_id_new = list(map(lambda x: x.cate3_id_new, catObjList))
+        listProductID = utils.getAllProduct_fromListCate3(list_cate3_id_new)
+        listProductInfo = Products.objects.filter(
+            pk__in=listProductID, status=200
+        ).order_by("-value_count")[:100]
+
+        products = [product.product_id for product in listProductInfo]
+        serializer = ProductSerializer(listProductInfo, many=True)
+
+        return Response(serializer.data)
+
+
+# Top Children category of a category
+class Category_cate_1_top(APIView):
+    def get(self, request, cate1_id, format=None):
+        cat1Obj = Category.objects.filter(cate1_id=cate1_id).all()
+        cat2_id_list = list(set(map(lambda x: x.cate2_id, cat1Obj)))
+
+        totalCountList = []
+
+        for id_2 in cat2_id_list:
+            sampleCat3_new = Category.objects.filter(
+                cate1_id=cate1_id, cate2_id=id_2
+            ).all()
+            sampleCat3_list = list(map(lambda x: x.cate3_id_new, sampleCat3_new))
+            totalCount = utils.getTotalValueCount_fromListCate3(sampleCat3_list)
+            totalCountList.append(totalCount)
+
+        return Response((dict(zip(cat2_id_list, totalCountList))))
+
+
+class Category_cate_2_top(APIView):
+    pass
 
 
 # class SessionViewSet(viewsets.ModelViewSet):
