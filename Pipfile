@@ -11,8 +11,10 @@ djangorestframework = "*"
 django-taggit = "*"
 djangorestframework-link-header-pagination = "*"
 djangorestframework-simplejwt = "*"
-django-elasticsearch-dsl = "*"
-elasticsearch-dsl = "==6.1.0"
+elasticsearch-dsl = "==7.1.0"
+django-elasticsearch-dsl = "==7.1.0"
+django-redis-cache = "*"
+django-redis = "*"
 
 [dev-packages]
 
