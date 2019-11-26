@@ -60,7 +60,14 @@ class Users(models.Model):
 
 
 # Not in Database class
+<<<<<<< HEAD
+
+# ---------ALL CATEGORY CLASS------------
 class Category_1(models.Model):
+    # All of category 1
+=======
+class Category_1(models.Model):
+>>>>>>> 70d846f4e5014d195e17b9a591a1a1fa9df25b95
     cate1_id = models.CharField(max_length=80)
     cate1_name = models.TextField()
 
@@ -68,3 +75,28 @@ class Category_1(models.Model):
         managed = False
         db_table = "category"
 
+<<<<<<< HEAD
+
+class Category_2(models.Model):
+    # All of category 2
+    cate2_id = models.CharField(max_length=80)
+    cate2_name = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = "category"
+
+
+class Category_3(models.Model):
+    cate3_id = models.CharField(max_length=80)
+    cate3_name = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = "category"
+
+
+# -----------END OF CATEGORY CLASS
+
+=======
+>>>>>>> 70d846f4e5014d195e17b9a591a1a1fa9df25b95

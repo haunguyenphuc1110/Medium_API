@@ -1,5 +1,10 @@
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
 from .serializers import *
 from rest_framework import generics
@@ -74,7 +79,13 @@ from . import utils
 #     serializer_class = TagSerializer
 
 
+CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
+
+
+# @cache_page(CACHE_TTL)
 class CategoryList(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    # @method_decorator(cache_page(60*60*2))
+    # @method_decorator(vary_on_cookie)
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -99,14 +110,39 @@ class PopularityList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     serializer_class = ProductSerializer
 
 
+# -------------CATEGORY CLASS-------------------
 # All Category 1 IDs and names
 class Category_1(viewsets.GenericViewSet, generics.ListCreateAPIView):
     queryset = Category.objects.order_by().values("cate1_id", "cate1_name").distinct()
     serializer_class = Category_1_Serializer
 
 
-# Top products of cate 1,2,3 id
+# All Category 2 IDs and names
+class Category_2(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = Category.objects.order_by().values("cate2_id", "cate2_name").distinct()
+    serializer_class = Category_2_Serializer
+
+
+class Category_3(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = Category.objects.order_by().values("cate3_id", "cate3_name").distinct()
+    serializer_class = Category_3_Serializer
+
+
+# -------------END OF CATEGORY CLASS----------------
+
+# -----------SUB CATEGORY------------
+class Category_1_2(viewsets.GenericViewSet, generics.ListCreateAPIView):
+    queryset = (
+        Category.objects.filter(cate1_id=1686)
+        .values("cate2_id", "cate2_name")
+        .distinct()
+    )
+    serializer_class = Category_2_Serializer
+
+
+# ----------Top products of cate 1,2,3 id-----------
 class Category_prod_1_top(APIView):
+    # @method_decorator(cache_page(60 * 60 * 2))
     def get(self, request, cate1_id, format=None):
         catObjList = Category.objects.filter(cate1_id=cate1_id).all()
         list_cate3_id_new = list(map(lambda x: x.cate3_id_new, catObjList))
@@ -151,7 +187,9 @@ class Category_prod_3_top(APIView):
         return Response(serializer.data)
 
 
-# Top Children category of a category
+# -------------End of top product of category---------
+
+# -----------Top Children category of a category-------
 class Category_cate_1_top(APIView):
     def get(self, request, cate1_id, format=None):
         cat1Obj = Category.objects.filter(cate1_id=cate1_id).all()
@@ -174,6 +212,51 @@ class Category_cate_2_top(APIView):
     pass
 
 
+# -------------------End of top Children category of a category
+
+# -----------Category filter--------------
+class CategoryFilter(generics.ListCreateAPIView):
+    serializer_class = CategoryFilter_Serializer
+
+    # def get_serializer_class(self):
+    #     print("IM IN THE SERIALIZE")
+
+    #     cate1_id = self.request.query_params.get("cate1_id", None)
+    #     cate2_id = self.request.query_params.get("cate2_id", None)
+
+    #     if cate1_id is not None:
+    #         if cate2_id is not None:
+    #             serializer_class = Category_3
+    #         else:
+    #             serializer_class = Category_2
+    #     elif cate2_id is not None:
+    #         serializer_class = Category_3
+
+    #     return serializer_class
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        print("IM IN THE QUERY SET")
+        queryset = Category.objects.all()
+
+        cate1_id = self.request.query_params.get("cate1_id", None)
+        cate2_id = self.request.query_params.get("cate2_id", None)
+
+        if cate1_id is not None:
+            if cate2_id is not None:
+                queryset = queryset.filter(cate1_id=cate1_id, cate2_id=cate2_id)
+            else:
+                queryset = queryset.filter(cate1_id=cate1_id)
+        elif cate2_id is not None:
+            queryset = queryset.filter(cate2_id=cate2_id)
+
+        return queryset
+
+
+# ----------_End of Category filter-------
 # class SessionViewSet(viewsets.ModelViewSet):
 #     queryset = Session.objects.all()
 #     serializer_class = SessionSerializer

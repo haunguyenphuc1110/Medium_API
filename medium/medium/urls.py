@@ -35,9 +35,20 @@ router.register("products", view.ProductList, base_name="product")
 # Popular
 router.register("products/popularity", view.PopularityList, base_name="popularity")
 
+# -------ALL CATEGORY CLASS-----------
 # Cate 1
 router.register("category_1", view.Category_1, basename="category_1")
 
+# Cate 2
+router.register("category_2", view.Category_2, basename="category_2")
+
+# Cate 3
+router.register("category_3", view.Category_3, basename="category_3")
+# ------------END OF CATEGORY CLASS-------------
+
+# -------SUB CATEGORY------------
+# router.register("category_1_2", view.Category_1_2, basename="category_1_2")
+# --------END OF SUB CATEGORY
 # Top 10 Cate 1
 # router.register(
 #     "r'^category/(?P<cate1_id>\w{0,50})/$'",
@@ -63,4 +74,5 @@ urlpatterns = [
     path("category/prod/third/<str:cate3_id>/", view.Category_prod_3_top.as_view()),
     path("category/cate/first/<str:cate1_id>/", view.Category_cate_1_top.as_view()),
     path("category/cate/second/<str:cate2_id>/", view.Category_cate_2_top.as_view()),
+    path("category", view.CategoryFilter.as_view()),
 ]
