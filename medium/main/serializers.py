@@ -68,12 +68,17 @@ class CateProductSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+<<<<<<< HEAD
 # ----------------ALL CATEGORY CLASS---------
 # All Category 1
+=======
+# Category 1
+>>>>>>> 70d846f4e5014d195e17b9a591a1a1fa9df25b95
 class Category_1_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Category_1
         fields = "__all__"
+<<<<<<< HEAD
         depth = 1
 
 
@@ -82,6 +87,8 @@ class Category_2_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Category_2
         fields = "__all__"
+=======
+>>>>>>> 70d846f4e5014d195e17b9a591a1a1fa9df25b95
         depth = 1
 
 
