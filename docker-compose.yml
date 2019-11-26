@@ -20,14 +20,11 @@ services:
     env_file: .env
     ports:
       - 54320:5432
-<<<<<<< HEAD
   redis:
     image: redis:3.2.11
     container_name: redis
     ports:
       - 6379:6379
-=======
->>>>>>> 70d846f4e5014d195e17b9a591a1a1fa9df25b95
   web:
     build: .
     command: python /code/medium/manage.py runserver 0.0.0.0:8000
