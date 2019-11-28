@@ -108,5 +108,5 @@ class CategoryFilter_Serializer(serializers.ModelSerializer):
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ("user_id", "last_activity")
+        fields = ("user_id", "last_activity", "mac_address")
         depth = 1
