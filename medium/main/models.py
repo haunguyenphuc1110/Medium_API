@@ -6,7 +6,9 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+
 # add comment
+
 
 class CateProduct(models.Model):
     cate3_id_new = models.ForeignKey(
@@ -64,6 +66,7 @@ class Users(models.Model):
 # ---------ALL CATEGORY CLASS------------
 # All of category 1
 class Category_1(models.Model):
+    # All of category 1
     cate1_id = models.CharField(max_length=80)
     cate1_name = models.TextField()
 
@@ -90,4 +93,5 @@ class Category_3(models.Model):
         db_table = "category"
 
 
-# -----------END OF CATEGORY CLASS----------
+# -----------END OF CATEGORY CLASS
+

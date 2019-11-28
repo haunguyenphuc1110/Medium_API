@@ -75,4 +75,5 @@ urlpatterns = [
     path("category/cate/first/<str:cate1_id>/", view.Category_cate_1_top.as_view()),
     path("category/cate/second/<str:cate2_id>/", view.Category_cate_2_top.as_view()),
     path("category", view.CategoryFilter.as_view()),
+    path("user/<str:username>/<str:password>/", view.UserLogin.as_view()),
 ]

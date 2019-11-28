@@ -27,7 +27,9 @@ SECRET_KEY = "ukl0pi#w@a%dtpc0s2&zc_vf52)_vp7&5*=&(fne&2qh=x$r%e"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['165.22.97.19','localhost']
+ALLOWED_HOSTS = ["165.22.97.19", "localhost"]
+
+
 
 # Application definition
 
@@ -117,7 +119,7 @@ ELASTICSEARCH_DSL = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:7777/1",
+        "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         "KEY_PREFIX": "example",
     }
