@@ -1,3 +1,5 @@
+import hashlib
+
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
@@ -6,17 +8,20 @@ from django.core.cache import cache
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
+# from django.views.decorators.csrf import csrf_exempt
+
 from .serializers import *
 from rest_framework import generics
 from rest_framework import viewsets
-from taggit.models import Tag
+from rest_framework import status
 from rest_framework.permissions import IsAdminUser
-from . import documents
-from elasticsearch_dsl.query import MultiMatch
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
+
+from taggit.models import Tag
+from . import documents
+from elasticsearch_dsl.query import MultiMatch
 
 from . import utils
 
@@ -257,6 +262,20 @@ class CategoryFilter(generics.ListCreateAPIView):
 
 
 # ----------_End of Category filter-------
+
+
+# ---User Login View-----------
+class UserLogin(APIView):
+    def get(self, request, username, password, format=None):
+        hash_pass = hashlib.md5(password.encode()).hexdigest()
+        user = Users.objects.filter(username=username).all()
+
+        if user.first().password == hash_pass:
+            serializer = UserLoginSerializer(user, many=True)
+            return Response(serializer.data[0])
+        return Response({"message": "login fail"})
+
+
 # class SessionViewSet(viewsets.ModelViewSet):
 #     queryset = Session.objects.all()
 #     serializer_class = SessionSerializer

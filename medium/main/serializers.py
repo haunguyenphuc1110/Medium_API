@@ -103,3 +103,10 @@ class CategoryFilter_Serializer(serializers.ModelSerializer):
 
 
 # ---------END OF SUB CATEGORY------
+
+# -----LOGIN SERIALIZE-----------
+class UserLoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ("user_id", "last_activity")
+        depth = 1
