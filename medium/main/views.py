@@ -264,7 +264,7 @@ class CategoryFilter(generics.ListCreateAPIView):
 # ----------_End of Category filter-------
 
 
-# ---User Login View-----------
+# ---User Login View-----------=
 class UserLogin(APIView):
     def get(self, request, username, password, format=None):
         hash_pass = hashlib.md5(password.encode()).hexdigest()
