@@ -30,6 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["165.22.97.19", "localhost"]
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -108,7 +109,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PAGINATION_CLASS": "drf_link_header_pagination.LinkHeaderPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 30,
 }
 
 ELASTICSEARCH_DSL = {
@@ -124,7 +125,7 @@ CACHES = {
     }
 }
 
-CACHE_TTL = 60 * 30
+CACHE_TTL = 60 * 60
 
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
