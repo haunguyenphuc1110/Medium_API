@@ -66,6 +66,7 @@ class Users(models.Model):
 # Not in Database class
 
 # ---------ALL CATEGORY CLASS------------
+# All of category 1
 class Category_1(models.Model):
     # All of category 1
     cate1_id = models.CharField(max_length=80)
@@ -74,7 +75,6 @@ class Category_1(models.Model):
     class Meta:
         managed = False
         db_table = "category"
-
 
 class Category_2(models.Model):
     # All of category 2
