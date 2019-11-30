@@ -78,5 +78,6 @@ urlpatterns = [
     path("category/level_2/", view.CategoryFilter_level2.as_view()),
     path("category/level_3/", view.CategoryFilter_level3.as_view()),
     path("user/<str:username>/<str:password>/", view.UserLogin.as_view()),
+    path("user/history/", view.UserHistory.as_view()),
     path("api/v1/users", view.UserFilter.as_view()),
 ]
