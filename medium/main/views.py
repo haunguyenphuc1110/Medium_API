@@ -249,15 +249,14 @@ class CategoryFilter(generics.ListCreateAPIView):
 
         cate1_id = self.request.query_params.get("cate1_id", None)
         cate2_id = self.request.query_params.get("cate2_id", None)
+        only_cate2 = self.request.query_params.get("only_cate2", None)
 
+        # Rewrite code
         if cate1_id is not None:
-            if cate2_id is not None:
-                queryset = queryset.filter(cate1_id=cate1_id, cate2_id=cate2_id)
-            else:
-                queryset = queryset.filter(cate1_id=cate1_id)
-        elif cate2_id is not None:
+            queryset = queryset.filter(cate1_id=cate1_id)
+        if cate2_id is not None:
             queryset = queryset.filter(cate2_id=cate2_id)
-
+            
         return queryset
 
 
