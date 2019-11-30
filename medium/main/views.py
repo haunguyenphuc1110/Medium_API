@@ -317,6 +317,23 @@ class UserFilter(generics.ListAPIView):
 
 # -------End of user filter
 
+# -----User history-----------
+class UserHistory(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a user by user_id
+        """
+        user_id = self.request.query_params.get("user_id", None)
+
+        if user_id:
+            users = Users.objects.get(user_id=user_id)
+            queryset = Products.objects.filter(pk__in=users.history)
+
+        return queryset
+
+
 # class SessionViewSet(viewsets.ModelViewSet):
 #     queryset = Session.objects.all()
 #     serializer_class = SessionSerializer
