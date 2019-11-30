@@ -221,7 +221,7 @@ class Category_cate_2_top(APIView):
 
 # -----------Category filter--------------
 class CategoryFilter(generics.ListCreateAPIView):
-    serializer_class = CategoryFilter_Serializer
+    serializer_class = CategorySerializer
 
     # def get_serializer_class(self):
     #     print("IM IN THE SERIALIZE")
@@ -256,7 +256,29 @@ class CategoryFilter(generics.ListCreateAPIView):
             queryset = queryset.filter(cate1_id=cate1_id)
         if cate2_id is not None:
             queryset = queryset.filter(cate2_id=cate2_id)
-            
+
+        return queryset
+
+
+class CategoryFilter_level2(generics.ListCreateAPIView):
+    serializer_class = Category_2_Serializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        cate1_id = self.request.query_params.get("cate1_id", None)
+        if cate1_id is not None:
+            queryset = queryset.filter(cate1_id=cate1_id).distinct()
+        return queryset
+
+
+class CategoryFilter_level3(generics.ListCreateAPIView):
+    serializer_class = Category_3_Serializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        cate2_id = self.request.query_params.get("cate2_id", None)
+        if cate2_id is not None:
+            queryset = queryset.filter(cate2_id=cate2_id).distinct()
         return queryset
 
 
