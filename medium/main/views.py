@@ -221,7 +221,7 @@ class Category_cate_2_top(APIView):
 
 # -----------Category filter--------------
 class CategoryFilter(generics.ListCreateAPIView):
-    serializer_class = CategoryFilter_Serializer
+    serializer_class = CategorySerializer
 
     # def get_serializer_class(self):
     #     print("IM IN THE SERIALIZE")
@@ -249,15 +249,36 @@ class CategoryFilter(generics.ListCreateAPIView):
 
         cate1_id = self.request.query_params.get("cate1_id", None)
         cate2_id = self.request.query_params.get("cate2_id", None)
+        only_cate2 = self.request.query_params.get("only_cate2", None)
 
+        # Rewrite code
         if cate1_id is not None:
-            if cate2_id is not None:
-                queryset = queryset.filter(cate1_id=cate1_id, cate2_id=cate2_id)
-            else:
-                queryset = queryset.filter(cate1_id=cate1_id)
-        elif cate2_id is not None:
+            queryset = queryset.filter(cate1_id=cate1_id)
+        if cate2_id is not None:
             queryset = queryset.filter(cate2_id=cate2_id)
 
+        return queryset
+
+
+class CategoryFilter_level2(generics.ListCreateAPIView):
+    serializer_class = Category_2_Serializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        cate1_id = self.request.query_params.get("cate1_id", None)
+        if cate1_id is not None:
+            queryset = queryset.filter(cate1_id=cate1_id).distinct()
+        return queryset
+
+
+class CategoryFilter_level3(generics.ListCreateAPIView):
+    serializer_class = Category_3_Serializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        cate2_id = self.request.query_params.get("cate2_id", None)
+        if cate2_id is not None:
+            queryset = queryset.filter(cate2_id=cate2_id).distinct()
         return queryset
 
 
@@ -275,6 +296,26 @@ class UserLogin(APIView):
             return Response(serializer.data[0])
         return Response({"message": "login fail"})
 
+
+# ---- User Filter------------
+class UserFilter(generics.ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a user by user_id
+        """
+        queryset = Users.objects.all()
+
+        user_id = self.request.query_params.get("user_id", None)
+
+        if user_id:
+            queryset = queryset.filter(user_id=user_id)
+
+        return queryset
+
+
+# -------End of user filter
 
 # class SessionViewSet(viewsets.ModelViewSet):
 #     queryset = Session.objects.all()

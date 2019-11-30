@@ -74,6 +74,9 @@ urlpatterns = [
     path("category/prod/third/<str:cate3_id>/", view.Category_prod_3_top.as_view()),
     path("category/cate/first/<str:cate1_id>/", view.Category_cate_1_top.as_view()),
     path("category/cate/second/<str:cate2_id>/", view.Category_cate_2_top.as_view()),
-    path("category", view.CategoryFilter.as_view()),
+    path("category/", view.CategoryFilter.as_view()),
+    path("category/level_2/", view.CategoryFilter_level2.as_view()),
+    path("category/level_3/", view.CategoryFilter_level3.as_view()),
     path("user/<str:username>/<str:password>/", view.UserLogin.as_view()),
+    path("api/v1/users", view.UserFilter.as_view()),
 ]

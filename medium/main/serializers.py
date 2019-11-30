@@ -92,16 +92,9 @@ class Category_3_Serializer(serializers.ModelSerializer):
         depth = 1
 
 
-# -----------END OF CATEGORY CLASS
+# -----------END OF CATEGORY CLASS##
 
 # ----------SUB CATEGORY-------------
-class CategoryFilter_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = "__all__"
-        depth = 1
-
-
 # ---------END OF SUB CATEGORY------
 
 # -----LOGIN SERIALIZE-----------
