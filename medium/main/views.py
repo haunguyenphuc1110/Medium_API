@@ -276,6 +276,26 @@ class UserLogin(APIView):
         return Response({"message": "login fail"})
 
 
+# ---- User Filter------------
+class UserFilter(generics.ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a user by user_id
+        """
+        queryset = Users.objects.all()
+
+        user_id = self.request.query_params.get("user_id", None)
+
+        if user_id:
+            queryset = queryset.filter(user_id=user_id)
+
+        return queryset
+
+
+# -------End of user filter
+
 # class SessionViewSet(viewsets.ModelViewSet):
 #     queryset = Session.objects.all()
 #     serializer_class = SessionSerializer

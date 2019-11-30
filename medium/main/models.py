@@ -76,6 +76,7 @@ class Category_1(models.Model):
         managed = False
         db_table = "category"
 
+
 class Category_2(models.Model):
     # All of category 2
     cate2_id = models.CharField(max_length=80)
