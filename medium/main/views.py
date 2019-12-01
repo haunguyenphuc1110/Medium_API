@@ -98,6 +98,24 @@ class CategoryList(viewsets.GenericViewSet, generics.ListCreateAPIView):
 class ProductList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     queryset = Products.objects.filter(status=200)
     serializer_class = ProductSerializer
+    keyword_fields = [
+        "product_name",
+        "product_id",
+    ]
+
+    def get_queryset(self):
+        qs = self.request.query_params.get("q", None)
+        if qs is None:
+            return self.queryset
+
+        words = qs.split(",")
+        search = documents.ProductDocument.search()
+        match = MultiMatch(
+            query=" ".join(words), fields=self.keyword_fields, type="best_fields"
+        )
+        # q = Q('nested', path='skills', query=Q('match', skills__name=qs)) | Q(match)
+        search = search.query(match)
+        return search.to_queryset()
 
 
 class UserList(viewsets.GenericViewSet, generics.ListCreateAPIView):
@@ -267,7 +285,7 @@ class CategoryFilter_level2(generics.ListCreateAPIView):
         queryset = Category.objects.all()
         cate1_id = self.request.query_params.get("cate1_id", None)
         if cate1_id is not None:
-            queryset = queryset.filter(cate1_id=cate1_id).distinct()
+            queryset = queryset.filter(cate1_id=cate1_id).distinct("cate2_id")
         return queryset
 
 
@@ -278,7 +296,7 @@ class CategoryFilter_level3(generics.ListCreateAPIView):
         queryset = Category.objects.all()
         cate2_id = self.request.query_params.get("cate2_id", None)
         if cate2_id is not None:
-            queryset = queryset.filter(cate2_id=cate2_id).distinct()
+            queryset = queryset.filter(cate2_id=cate2_id).distinct("cate3_id")
         return queryset
 
 
