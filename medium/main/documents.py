@@ -1,8 +1,9 @@
+'''
 from django_elasticsearch_dsl import DocType, Index, fields
 from .models import *
 
 
-products = Index("Products")
+products = Index("products")
 # See Elasticsearch Indices API reference for available settings
 products.settings(number_of_shards=1, number_of_replicas=0)
 
@@ -13,7 +14,29 @@ class ProductDocument(DocType):
         model = Products  # The model associated with this DocType
 
         # The fields of the model you want to be indexed in Elasticsearch
-        fields = ["product_name", "product_id"]
+        fields = Products.field_names
+        related_model = [CateProduct]
+        queryset_pagination = 10
+
+    def get_instances_from_related(self, related_instance):
+        if isinstance(related_instance, CateProduct):
+            return related_instance.product
+
+
+# @profiles.doc_type
+# class ProfileDocument(DocType):
+#     skill_level_texts = fields.TextField(attr="_skill_level_texts")
+#     skill_texts = fields.TextField(attr="_skill_texts")
+
+#     class Meta:
+#         model = Profile
+#         fields = Profile.field_names
+#         related_models = [ProfileSkill]
+#         # queryset_pagination = 512
+
+#     def get_instances_from_related(self, related_instance):
+#         if isinstance(related_instance, ProfileSkill):
+#             return related_instance.profile
 
 
 # @products.doc_type
@@ -55,3 +78,4 @@ class ProductDocument(DocType):
 # Paginate the django queryset used to populate the index with the specified size
 # (by default there is no pagination)
 # queryset_pagination = 5000
+'''
