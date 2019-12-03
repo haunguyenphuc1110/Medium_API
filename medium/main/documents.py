@@ -1,21 +1,42 @@
-# from django_elasticsearch_dsl import DocType, Index, fields
-# from .models import *
+'''
+from django_elasticsearch_dsl import DocType, Index, fields
+from .models import *
 
 
-# products = Index("products")
-# # See Elasticsearch Indices API reference for available settings
-# products.settings(number_of_shards=1, number_of_replicas=0)
+products = Index("products")
+# See Elasticsearch Indices API reference for available settings
+products.settings(number_of_shards=1, number_of_replicas=0)
 
 
-# @products.doc_type
-# class ProductDocument(DocType):
+@products.doc_type
+class ProductDocument(DocType):
+    class Meta:
+        model = Products  # The model associated with this DocType
+
+        # The fields of the model you want to be indexed in Elasticsearch
+        fields = Products.field_names
+        related_model = [CateProduct]
+        queryset_pagination = 10
+
+    def get_instances_from_related(self, related_instance):
+        if isinstance(related_instance, CateProduct):
+            return related_instance.product
+
+
+# @profiles.doc_type
+# class ProfileDocument(DocType):
+#     skill_level_texts = fields.TextField(attr="_skill_level_texts")
+#     skill_texts = fields.TextField(attr="_skill_texts")
+
 #     class Meta:
-#         model = Products  # The model associated with this DocType
+#         model = Profile
+#         fields = Profile.field_names
+#         related_models = [ProfileSkill]
+#         # queryset_pagination = 512
 
-#         # The fields of the model you want to be indexed in Elasticsearch
-#         fields = [
-#             "product_name",
-#         ]
+#     def get_instances_from_related(self, related_instance):
+#         if isinstance(related_instance, ProfileSkill):
+#             return related_instance.profile
 
 
 # @products.doc_type
@@ -34,11 +55,11 @@
 
 #     related_models = [post]
 
+
 # def get_queryset(self):
 #     """Not mandatory but to improve performance we can select related in one sql request"""
-#     return super(PostDocument, self).get_queryset().select_related(
-#         'post'
-#     )
+#     return super(ProductDocument, self).get_queryset().select_related("post")
+
 
 # def get_instances_from_related(self, related_instance):
 #     """If related_models is set, define how to retrieve the Car instance(s) from the related model.
@@ -48,6 +69,7 @@
 #     if isinstance(related_instance, post):
 #         return related_instance.car_set.all()
 
+
 # Ignore auto updating of Elasticsearch when a model is saved
 # or deleted:
 # ignore_signals = True
@@ -56,3 +78,4 @@
 # Paginate the django queryset used to populate the index with the specified size
 # (by default there is no pagination)
 # queryset_pagination = 5000
+'''

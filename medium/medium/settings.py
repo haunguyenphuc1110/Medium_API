@@ -30,7 +30,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["165.22.97.19", "localhost"]
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,7 +42,7 @@ INSTALLED_APPS = [
     "taggit",
     "main",
     "rest_framework",
-    "django_elasticsearch_dsl",
+    # "django_elasticsearch_dsl",
     # "django-redis-CACHE_TTL",
 ]
 

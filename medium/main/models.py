@@ -50,6 +50,9 @@ class Products(models.Model):
         db_table = "products"
 
 
+Products.field_names = [f.name for f in Products._meta.fields[2:]]
+
+
 class Users(models.Model):
     user_id = models.CharField(primary_key=True, max_length=80)
     username = models.CharField(unique=True, max_length=50, blank=True, null=True)
