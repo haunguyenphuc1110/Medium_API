@@ -98,6 +98,36 @@ class CategoryList(viewsets.GenericViewSet, generics.ListCreateAPIView):
 class ProductList(viewsets.GenericViewSet, generics.ListCreateAPIView):
     queryset = Products.objects.filter(status=200)
     serializer_class = ProductSerializer
+    keyword_fields = [
+        "product_name",
+        "product_id",
+    ]
+
+    def get_queryset(self):
+        qs = self.request.query_params.get("q", None)
+        print("QS value: ", qs)
+
+        if qs is None:
+            return self.queryset
+        qs = qs.upper()
+
+        return Products.objects.filter(product_name__contains=qs).order_by(
+            "-value_count"
+        )[:30]
+        # words = qs.split(",")
+        # print("WORDS: ", words)
+
+        # search = documents.ProductDocument.search()
+        # print("SEARCH: ", search)
+
+        # match = MultiMatch(
+        #     query=" ".join(words), fields=self.keyword_fields, type="best_fields"
+        # )
+        # print("MATCH: ", match)
+
+        # # q = Q('nested', path='skills', query=Q('match', skills__name=qs)) | Q(match)
+        # search = search.query(match)
+        # return search.to_queryset()
 
 
 class UserList(viewsets.GenericViewSet, generics.ListCreateAPIView):
