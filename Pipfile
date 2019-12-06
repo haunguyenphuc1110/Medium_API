@@ -15,8 +15,10 @@ elasticsearch-dsl = "==6.4.0"
 django-elasticsearch-dsl = "==6.4.1"
 django-redis-cache   = "*"
 django-redis = "*"
+numpy = "==1.17.4"
+lightfm = "==1.15"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.6.9"
