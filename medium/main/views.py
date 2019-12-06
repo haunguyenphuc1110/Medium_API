@@ -25,6 +25,10 @@ from elasticsearch_dsl.query import MultiMatch
 
 from . import utils
 
+from lightfm import LightFM
+import lightfm
+import pickle
+
 # class IsAdmindNotGet(IsAdminUser):
 #     """
 #     If request == get >  >  > just request = get not authen, other request must admin
@@ -249,6 +253,19 @@ class Category_cate_2_top(APIView):
 
 # -------------------End of top Children category of a category
 
+# ------ Recommend View
+class RecommendView(generics.ListCreateAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        queryset = Products.objects.all()
+        user_id = self.request.query_params.get("user_id", None)
+
+        print("Recommend for user: ", user_id)
+        print("Light FM Version: ", lightfm.__version__)
+        return queryset
+
+
 # -----------Category filter--------------
 class CategoryFilter(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
@@ -306,9 +323,15 @@ class CategoryFilter_level3(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Category.objects.all()
+        cate1_id = self.request.query_params.get("cate1_id", None)
         cate2_id = self.request.query_params.get("cate2_id", None)
+
+        if cate1_id is not None:
+            queryset = queryset.filter(cate1_id=cate1_id).distinct("cate3_id")
+
         if cate2_id is not None:
             queryset = queryset.filter(cate2_id=cate2_id).distinct("cate3_id")
+
         return queryset
 
 

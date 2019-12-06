@@ -80,4 +80,5 @@ urlpatterns = [
     path("user/<str:username>/<str:password>/", view.UserLogin.as_view()),
     path("user/history/", view.UserHistory.as_view()),
     path("api/v1/users", view.UserFilter.as_view()),
+    path("api/v1/users/recommend", view.RecommendView.as_view()),
 ]
