@@ -1,4 +1,5 @@
 import hashlib
+import operator
 
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -24,6 +25,10 @@ from . import documents
 from elasticsearch_dsl.query import MultiMatch
 
 from . import utils
+
+from lightfm import LightFM
+import lightfm
+import pickle
 
 # class IsAdmindNotGet(IsAdminUser):
 #     """
@@ -82,6 +87,23 @@ from . import utils
 #               generics.ListCreateAPIView):
 #     queryset = Tag.objects.all()
 #     serializer_class = TagSerializer
+
+
+# Run on training set only
+model = pickle.load(open("/code/medium/model/model.pickle", "rb"))
+user_encode_dict = pickle.load(open("/code/medium/model/user_encode_dict.pickle", "rb"))
+item_encode_dict = pickle.load(open("/code/medium/model/item_encode_dict.pickle", "rb"))
+
+item_ids_list = list(item_encode_dict.values())
+item_keys_list = list(item_encode_dict.keys())
+item_encode_list = list(item_encode_dict.values())
+
+
+def recommend_user(userid, top_n):
+    user_score = model.predict(user_encode_dict[userid], item_ids_list)
+    score_dict = dict(zip(item_keys_list, user_score))
+    sorted_score = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+    return list(map(lambda x: x[0], sorted_score[:top_n]))
 
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
@@ -249,6 +271,31 @@ class Category_cate_2_top(APIView):
 
 # -------------------End of top Children category of a category
 
+# ------ Recommend View
+class RecommendView(generics.ListCreateAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        queryset = Products.objects.all()
+        user_id = self.request.query_params.get("user_id", None)
+        top_n = self.request.query_params.get("top_n", None)
+
+        top_n = 10 if top_n is None else int(top_n)
+        if (user_id is None) or (not user_id in user_encode_dict.keys()):
+            print("User not found!")
+            return queryset.order_by("-value_count")[:top_n]
+
+        # Ordered list from most intersted item
+        recommend_list = recommend_user(user_id, top_n)
+
+        print("Recommend List Of Items: ", recommend_list)
+        queryset = queryset.filter(pk__in=recommend_list)
+
+        print("Recommend for user: ", user_id)
+        print("Light FM Version: ", lightfm.__version__)
+        return queryset
+
+
 # -----------Category filter--------------
 class CategoryFilter(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
@@ -306,9 +353,15 @@ class CategoryFilter_level3(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Category.objects.all()
+        cate1_id = self.request.query_params.get("cate1_id", None)
         cate2_id = self.request.query_params.get("cate2_id", None)
+
+        if cate1_id is not None:
+            queryset = queryset.filter(cate1_id=cate1_id).distinct("cate3_id")
+
         if cate2_id is not None:
             queryset = queryset.filter(cate2_id=cate2_id).distinct("cate3_id")
+
         return queryset
 
 
