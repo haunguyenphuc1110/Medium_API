@@ -282,7 +282,7 @@ class RecommendView(generics.ListCreateAPIView):
 
         top_n = 10 if top_n is None else int(top_n)
         if (user_id is None) or (not user_id in user_encode_dict.keys()):
-            print("User not found!")
+            print("\n\nUser " + user_id + " not found!")
             return queryset.order_by("-value_count")[:top_n]
 
         # Ordered list from most intersted item
@@ -291,7 +291,7 @@ class RecommendView(generics.ListCreateAPIView):
         print("Recommend List Of Items: ", recommend_list)
         queryset = queryset.filter(pk__in=recommend_list)
 
-        print("Recommend for user: ", user_id)
+        print("\n\nRecommend for user: ", user_id)
         print("Light FM Version: ", lightfm.__version__)
         return queryset
 
