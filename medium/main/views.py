@@ -90,20 +90,55 @@ import pickle
 
 
 # Run on training set only
-model = pickle.load(open("/code/medium/model/model.pickle", "rb"))
-user_encode_dict = pickle.load(open("/code/medium/model/user_encode_dict.pickle", "rb"))
-item_encode_dict = pickle.load(open("/code/medium/model/item_encode_dict.pickle", "rb"))
+
+# -----FULL PRODUCT-----------
+model = pickle.load(open("/code/medium/model/product_full/model.pickle", "rb"))
+user_encode_dict = pickle.load(
+    open("/code/medium/model/product_full/user_encode_dict.pickle", "rb")
+)
+item_encode_dict = pickle.load(
+    open("/code/medium/model/product_full/item_encode_dict.pickle", "rb")
+)
 
 item_ids_list = list(item_encode_dict.values())
 item_keys_list = list(item_encode_dict.keys())
 item_encode_list = list(item_encode_dict.values())
 
+# -----CLEAN PRODUCT----------------
+model_clean = pickle.load(open("/code/medium/model/product_clean/model.pickle", "rb"))
+user_encode_dict_clean = pickle.load(
+    open("/code/medium/model/product_clean/user_encode_dict.pickle", "rb")
+)
+item_encode_dict_clean = pickle.load(
+    open("/code/medium/model/product_clean/item_encode_dict.pickle", "rb")
+)
 
-def recommend_user(userid, top_n):
-    user_score = model.predict(user_encode_dict[userid], item_ids_list)
-    score_dict = dict(zip(item_keys_list, user_score))
-    sorted_score = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
-    return list(map(lambda x: x[0], sorted_score[:top_n]))
+item_ids_list_clean = list(item_encode_dict.values())
+item_keys_list_clean = list(item_encode_dict.keys())
+item_encode_list_clean = list(item_encode_dict.values())
+
+
+def recommend_user(mode, userid, top_n):
+    if mode == "full":
+        user_score = model.predict(user_encode_dict[userid], item_ids_list)
+        score_dict = dict(zip(item_keys_list, user_score))
+        sorted_score = sorted(
+            score_dict.items(), key=operator.itemgetter(1), reverse=True
+        )
+        return list(map(lambda x: x[0], sorted_score[:top_n]))
+
+    elif mode == "clean":
+        user_score = model_clean.predict(
+            user_encode_dict_clean[userid], item_ids_list_clean
+        )
+        score_dict = dict(zip(item_keys_list_clean, user_score))
+        sorted_score = sorted(
+            score_dict.items(), key=operator.itemgetter(1), reverse=True
+        )
+        return list(map(lambda x: x[0], sorted_score[:top_n]))
+
+    else:
+        return []
 
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
@@ -279,6 +314,7 @@ class RecommendView(generics.ListCreateAPIView):
         queryset = Products.objects.all()
         user_id = self.request.query_params.get("user_id", None)
         top_n = self.request.query_params.get("top_n", None)
+        model = self.request.query_params.get("model", "full")
 
         top_n = 10 if top_n is None else int(top_n)
         if (user_id is None) or (not user_id in user_encode_dict.keys()):
@@ -286,7 +322,7 @@ class RecommendView(generics.ListCreateAPIView):
             return queryset.order_by("-value_count")[:top_n]
 
         # Ordered list from most intersted item
-        recommend_list = recommend_user(user_id, top_n)
+        recommend_list = recommend_user(model, user_id, top_n)
 
         print("Recommend List Of Items: ", recommend_list)
         queryset = queryset.filter(pk__in=recommend_list)
