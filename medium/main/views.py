@@ -1,5 +1,6 @@
 import hashlib
 import operator
+import random
 
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -90,20 +91,82 @@ import pickle
 
 
 # Run on training set only
-model = pickle.load(open("/code/medium/model/model.pickle", "rb"))
-user_encode_dict = pickle.load(open("/code/medium/model/user_encode_dict.pickle", "rb"))
-item_encode_dict = pickle.load(open("/code/medium/model/item_encode_dict.pickle", "rb"))
+
+# -----FULL PRODUCT-----------
+model = pickle.load(open("/code/medium/model/product_full/model.pickle", "rb"))
+user_encode_dict = pickle.load(
+    open("/code/medium/model/product_full/user_encode_dict.pickle", "rb")
+)
+item_encode_dict = pickle.load(
+    open("/code/medium/model/product_full/item_encode_dict.pickle", "rb")
+)
 
 item_ids_list = list(item_encode_dict.values())
 item_keys_list = list(item_encode_dict.keys())
 item_encode_list = list(item_encode_dict.values())
 
+# -----CLEAN PRODUCT----------------
+model_clean = pickle.load(open("/code/medium/model/product_clean/model.pickle", "rb"))
+user_encode_dict_clean = pickle.load(
+    open("/code/medium/model/product_clean/user_encode_dict.pickle", "rb")
+)
+item_encode_dict_clean = pickle.load(
+    open("/code/medium/model/product_clean/item_encode_dict.pickle", "rb")
+)
 
-def recommend_user(userid, top_n):
-    user_score = model.predict(user_encode_dict[userid], item_ids_list)
-    score_dict = dict(zip(item_keys_list, user_score))
-    sorted_score = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
-    return list(map(lambda x: x[0], sorted_score[:top_n]))
+item_ids_list_clean = list(item_encode_dict_clean.values())
+item_keys_list_clean = list(item_encode_dict_clean.keys())
+item_encode_list_clean = list(item_encode_dict_clean.values())
+
+
+# -----FULL CATEGORY-------
+model_cate_full = pickle.load(
+    open("/code/medium/model/category3_full/model.pickle", "rb")
+)
+user_encode_dict_cate_full = pickle.load(
+    open("/code/medium/model/category3_full/user_encode_dict.pickle", "rb")
+)
+item_encode_dict_cate_full = pickle.load(
+    open("/code/medium/model/category3_full/item_encode_dict.pickle", "rb")
+)
+
+item_ids_list_cate_full = list(item_encode_dict_cate_full.values())
+item_keys_list_cate_full = list(item_encode_dict_cate_full.keys())
+item_encode_list_cate_full = list(item_encode_dict_cate_full.values())
+
+
+def recommend_user(mode, userid, top_n):
+    if mode == "full":
+        user_score = model.predict(user_encode_dict[userid], item_ids_list)
+        score_dict = dict(zip(item_keys_list, user_score))
+        sorted_score = sorted(
+            score_dict.items(), key=operator.itemgetter(1), reverse=True
+        )
+        return list(map(lambda x: x[0], sorted_score[:top_n]))
+
+    elif mode == "clean":
+        user_score = model_clean.predict(
+            user_encode_dict_clean[userid], item_ids_list_clean
+        )
+        score_dict = dict(zip(item_keys_list_clean, user_score))
+        sorted_score = sorted(
+            score_dict.items(), key=operator.itemgetter(1), reverse=True
+        )
+        return list(map(lambda x: x[0], sorted_score[:top_n]))
+
+    elif mode == "cate_full":
+        user_score = model_cate_full.predict(
+            user_encode_dict_cate_full[userid], item_ids_list_cate_full
+        )
+        score_dict = dict(zip(item_keys_list_cate_full, user_score))
+        sorted_score = sorted(
+            score_dict.items(), key=operator.itemgetter(1), reverse=True
+        )
+
+        return list(map(lambda x: x[0], sorted_score[:top_n]))
+    else:
+        print("ERROR")
+        return []
 
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
@@ -279,21 +342,53 @@ class RecommendView(generics.ListCreateAPIView):
         queryset = Products.objects.all()
         user_id = self.request.query_params.get("user_id", None)
         top_n = self.request.query_params.get("top_n", None)
+        mode = self.request.query_params.get("mode", None)
+
+        print("Recommend Under Mode: ", mode)
 
         top_n = 10 if top_n is None else int(top_n)
         if (user_id is None) or (not user_id in user_encode_dict.keys()):
-            print("User not found!")
+            print("\n\nUser " + user_id + " not found!")
             return queryset.order_by("-value_count")[:top_n]
 
         # Ordered list from most intersted item
-        recommend_list = recommend_user(user_id, top_n)
+        if (mode == "full") or (mode == "clean"):
+            # Return Products
+            print("Searching in Product...")
+            recommend_list = recommend_user(mode, user_id, top_n)
 
-        print("Recommend List Of Items: ", recommend_list)
-        queryset = queryset.filter(pk__in=recommend_list)
+            print("\n\nRecommend List Of Items: ", recommend_list)
+            queryset = queryset.filter(pk__in=recommend_list)
 
-        print("Recommend for user: ", user_id)
-        print("Light FM Version: ", lightfm.__version__)
-        return queryset
+            print("\n\nRecommend for user: ", user_id)
+            print("Light FM Version: ", lightfm.__version__)
+            return queryset
+
+        elif mode == "cate_full":
+            print("Searching Category...")
+            # Return category
+            cate3_new_list = recommend_user(mode, user_id, top_n)
+
+            print("\n\nRecommend List Of Category New ID 3: ")
+            # queryset = queryset.filter(pk__in=recommend_list)
+
+            print("\n\nRecommend for user: ", user_id)
+            print("Light FM Version: ", lightfm.__version__)
+            print("Cate 3 new ID: ", cate3_new_list)
+
+            listCateProdObj = CateProduct.objects.filter(
+                cate3_id_new__in=cate3_new_list
+            )
+
+            print("LIST CATE PRODUCT: ", listCateProdObj)
+            listProduct = list(map(lambda x: x.product_id, listCateProdObj))
+            listRandomProduct = random.choices(listProduct, k=100)
+
+            print("ABOUT TO RETURN")
+            queryset = queryset.filter(pk__in=listRandomProduct).order_by(
+                "-value_count"
+            )
+            return queryset
 
 
 # -----------Category filter--------------
