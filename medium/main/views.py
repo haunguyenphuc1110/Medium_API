@@ -369,22 +369,20 @@ class RecommendView(generics.ListCreateAPIView):
             # Return category
             cate3_new_list = recommend_user(mode, user_id, top_n)
 
-            print("\n\nRecommend List Of Category New ID 3: ")
+            print("\n\nRecommend List Of Category New ID 3: ", cate3_new_list)
             # queryset = queryset.filter(pk__in=recommend_list)
 
             print("\n\nRecommend for user: ", user_id)
             print("Light FM Version: ", lightfm.__version__)
-            print("Cate 3 new ID: ", cate3_new_list)
 
             listCateProdObj = CateProduct.objects.filter(
                 cate3_id_new__in=cate3_new_list
             )
 
-            print("LIST CATE PRODUCT: ", listCateProdObj)
+            # print("LIST CATE PRODUCT: ", listCateProdObj)
             listProduct = list(map(lambda x: x.product_id, listCateProdObj))
             listRandomProduct = random.choices(listProduct, k=100)
 
-            print("ABOUT TO RETURN")
             queryset = queryset.filter(pk__in=listRandomProduct).order_by(
                 "-value_count"
             )
