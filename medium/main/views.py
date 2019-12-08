@@ -1,6 +1,7 @@
 import hashlib
 import operator
 import random
+import json
 
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -9,6 +10,8 @@ from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.http import HttpResponse
+from django.template import Context, loader
 
 # from django.views.decorators.csrf import csrf_exempt
 
@@ -347,12 +350,15 @@ class RecommendView(generics.ListCreateAPIView):
         print("Recommend Under Mode: ", mode)
 
         top_n = 10 if top_n is None else int(top_n)
-        if (user_id is None) or (not user_id in user_encode_dict.keys()):
-            print("\n\nUser " + user_id + " not found!")
-            return queryset.order_by("-value_count")[:top_n]
 
         # Ordered list from most intersted item
         if (mode == "full") or (mode == "clean"):
+
+            # user_id not in training
+            if (user_id is None) or (not user_id in user_encode_dict.keys()):
+                print("\n\nUser " + user_id + " not found!")
+                return queryset.order_by("-value_count")[:top_n]
+
             # Return Products
             print("Searching in Product...")
             recommend_list = recommend_user(mode, user_id, top_n)
@@ -365,6 +371,12 @@ class RecommendView(generics.ListCreateAPIView):
             return queryset
 
         elif mode == "cate_full":
+
+            # user_id not in training
+            if (user_id is None) or (not user_id in user_encode_dict.keys()):
+                print("\n\nUser " + user_id + " not found!")
+                return queryset.order_by("-value_count")[:top_n]
+
             print("Searching Category...")
             # Return category
             cate3_new_list = recommend_user(mode, user_id, top_n)
@@ -387,6 +399,50 @@ class RecommendView(generics.ListCreateAPIView):
                 "-value_count"
             )
             return queryset
+
+        elif mode == "new":
+            print("Searching Interest...Recommend by Interest")
+
+            # Get User
+            newUser = Users.objects.get(user_id=user_id)
+
+            # Get user interest list
+            list_cate1_interest = newUser.interest
+
+            if len(list_cate1_interest) > 0:
+                # Got interest
+                print(
+                    "User ",
+                    user_id,
+                    " interests in category 1 ID: ",
+                    list_cate1_interest,
+                )
+
+                # Sample
+                product_in_each_cate = int(50 / len(list_cate1_interest))
+                all_product_ids = []
+                for cate_id in list_cate1_interest:
+                    catObjList = Category.objects.filter(cate1_id=cate_id).all()
+                    list_cate3_id_new = list(map(lambda x: x.cate3_id_new, catObjList))
+                    listProductID = utils.getAllProduct_fromListCate3(list_cate3_id_new)
+                    listProductInfo = Products.objects.filter(
+                        pk__in=listProductID, status=200
+                    ).order_by("-value_count")[:product_in_each_cate]
+                    product_ids = [product.product_id for product in listProductInfo]
+                    all_product_ids += product_ids
+
+                # serializer = ProductSerializer(listProductInfo, many=True)
+                # return Response(serializer.data)
+                queryset = queryset.filter(pk__in=all_product_ids).order_by("?")
+                return queryset
+
+            else:
+                # Recommend by top popular items
+                print("User ", user_id, " have no interest, return most popular items")
+                queryset = queryset.order_by("-value_count")[:100]
+                return queryset
+
+            # Get 10 most popular products from EACH Interest category
 
 
 # -----------Category filter--------------
@@ -508,6 +564,36 @@ class UserHistory(generics.ListAPIView):
             queryset = Products.objects.filter(pk__in=users.history)
 
         return queryset
+
+
+def testPOST(request):
+    print("\n\nYAYYYYYYYYYYY")
+    if request.method == "POST":
+        print("POST is working")
+
+        # Get Body of request
+        json_data = json.loads(request.body)
+        userid = json_data["user_id"]
+        interest = json_data["category1_list"]
+
+        print("User ID: ", userid)
+        print("Category lvl 1:", interest)
+
+        # Update field for User
+        updateUser = Users.objects.get(user_id=userid)
+        print("user name: ", updateUser.username)
+
+        updateUser.interest = interest
+        updateUser.save()
+
+        print("Saved to database: ", updateUser.interest)
+
+        # Return a template
+        template = loader.get_template("../templates/survey/survey.html")
+        return HttpResponse(template.render)
+    else:
+        template = loader.get_template("../templates/survey/notAllow.html")
+        return HttpResponse(template)
 
 
 # class SessionViewSet(viewsets.ModelViewSet):

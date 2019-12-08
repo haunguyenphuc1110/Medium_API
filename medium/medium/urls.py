@@ -81,4 +81,5 @@ urlpatterns = [
     path("user/history/", view.UserHistory.as_view()),
     path("api/v1/users", view.UserFilter.as_view()),
     path("api/v1/users/recommend", view.RecommendView.as_view()),
+    path("api/v1/users/survey", view.testPOST),
 ]
