@@ -60,6 +60,8 @@ class Users(models.Model):
     mac_address = models.CharField(max_length=50, blank=True, null=True)
     last_activity = models.DateTimeField(blank=True, null=True)
     history = ArrayField(models.CharField(max_length=80, blank=True), size=5)
+    interest = ArrayField(models.CharField(max_length=80, blank=True), size=5)
+    value_count = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
