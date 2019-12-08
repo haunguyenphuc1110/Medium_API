@@ -349,7 +349,7 @@ class RecommendView(generics.ListCreateAPIView):
 
         print("Recommend Under Mode: ", mode)
 
-        top_n = 10 if top_n is None else int(top_n)
+        top_n = 100 if top_n is None else int(top_n)
 
         # Ordered list from most intersted item
         if (mode == "full") or (mode == "clean"):
@@ -419,7 +419,7 @@ class RecommendView(generics.ListCreateAPIView):
                 )
 
                 # Sample
-                product_in_each_cate = int(50 / len(list_cate1_interest))
+                product_in_each_cate = int(top_n / len(list_cate1_interest))
                 all_product_ids = []
                 for cate_id in list_cate1_interest:
                     catObjList = Category.objects.filter(cate1_id=cate_id).all()
