@@ -342,7 +342,7 @@ class RecommendView(generics.ListCreateAPIView):
         queryset = Products.objects.all()
         user_id = self.request.query_params.get("user_id", None)
         top_n = self.request.query_params.get("top_n", None)
-        mode = self.request.query_params.get("mode", None)
+        mode = self.request.query_params.get("mode", "full")
 
         print("Recommend Under Mode: ", mode)
 
