@@ -1,0 +1,833 @@
+{
+	"info": {
+		"_postman_id": "60c75619-96a9-4f7b-a885-e8d1a1ae2a23",
+		"name": "Sendo VPS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/?page=1",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/products/?page=2",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/category/?page=2",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"category",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Proudct-Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/cateprod/",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"cateprod",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products Popularity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/products/popularity/?page=1",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"popularity",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Get Products that have status = 200 and sort by value_count\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/category_1",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"category_1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/category_1",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"category_1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category 3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/category_3",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"category_3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top Product of category 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category/prod/first/138",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category",
+						"prod",
+						"first",
+						"138"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top Product of category 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category/prod/second/9",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category",
+						"prod",
+						"second",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top Product of category 3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category/prod/third/1301",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category",
+						"prod",
+						"third",
+						"1301"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top Category 2 of Category 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category/cate/first/8",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category",
+						"cate",
+						"first",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All category from Cate1_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category?cate1_id=604",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category"
+					],
+					"query": [
+						{
+							"key": "cate1_id",
+							"value": "604"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get only category 2 from Cate1_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category/level_2?cate1_id=528",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category",
+						"level_2"
+					],
+					"query": [
+						{
+							"key": "cate1_id",
+							"value": "528"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get only category 3 from cate 1 (and/or) cate 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/category/level_3?cate2_id=605",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"category",
+						"level_3"
+					],
+					"query": [
+						{
+							"key": "cate2_id",
+							"value": "605"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/user/user_1/12345678",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"user_1",
+						"12345678"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Info by User ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users?user_id=5A6B1AE023D4C868F106275106B44C2D",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "5A6B1AE023D4C868F106275106B44C2D"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/products/?q=dong ho led",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "dong ho led"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User Exist 1 Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?top_n=100&user_id=A5DCC6E849D8E9B9D6B5740784142EE1&mode=full",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "top_n",
+							"value": "100"
+						},
+						{
+							"key": "user_id",
+							"value": "A5DCC6E849D8E9B9D6B5740784142EE1"
+						},
+						{
+							"key": "mode",
+							"value": "full"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User Exist 1 Category 3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?top_n=100&user_id=A5DCC6E849D8E9B9D6B5740784142EE1&mode=cate_full",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "top_n",
+							"value": "100"
+						},
+						{
+							"key": "user_id",
+							"value": "A5DCC6E849D8E9B9D6B5740784142EE1"
+						},
+						{
+							"key": "mode",
+							"value": "cate_full"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User Exist 2 Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?user_id=9D6E4FB8D02C9C860E140D50E0D25CCD&top_n=20&mode=full",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "9D6E4FB8D02C9C860E140D50E0D25CCD"
+						},
+						{
+							"key": "top_n",
+							"value": "20"
+						},
+						{
+							"key": "mode",
+							"value": "full"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User Exist 2 Category 3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?user_id=9D6E4FB8D02C9C860E140D50E0D25CCD&top_n=20&mode=full",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "9D6E4FB8D02C9C860E140D50E0D25CCD"
+						},
+						{
+							"key": "top_n",
+							"value": "20"
+						},
+						{
+							"key": "mode",
+							"value": "full"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User New",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?user_id=75FE3BF760D50C2E040BC96B1167301D&top_n=20",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "75FE3BF760D50C2E040BC96B1167301D"
+						},
+						{
+							"key": "top_n",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST survey C2B4414BFC676A3436ACCA0D23887323 user_0",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category1_list\": [\n\t\t\"8\",\n\t\t\"1686\",\n\t\t\"604\",\n\t\t\"1366\"\n\t],\n\t\"user_id\":\"C2B4414BFC676A3436ACCA0D23887323\"\n}"
+				},
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/survey",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"survey"
+					]
+				},
+				"description": "2 interactions"
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User By Interest C2B4414BFC676A3436ACCA0D23887323",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?user_id=C2B4414BFC676A3436ACCA0D23887323&top_n=20&mode=new",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "C2B4414BFC676A3436ACCA0D23887323"
+						},
+						{
+							"key": "top_n",
+							"value": "20"
+						},
+						{
+							"key": "mode",
+							"value": "new"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST survey 594653E5470308E9D28A46B8A802E28B user_9 Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"category1_list\": [\n\t\t\"528\"\n\t],\n\t\"user_id\":\"594653E5470308E9D28A46B8A802E28B\"\n}"
+				},
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/survey",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"survey"
+					]
+				},
+				"description": "1 interaction"
+			},
+			"response": []
+		},
+		{
+			"name": "Recommend User By Interest 594653E5470308E9D28A46B8A802E28B",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://165.22.97.19:8000/api/v1/users/recommend?user_id=594653E5470308E9D28A46B8A802E28B&top_n=20&mode=new",
+					"protocol": "http",
+					"host": [
+						"165",
+						"22",
+						"97",
+						"19"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"recommend"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "594653E5470308E9D28A46B8A802E28B"
+						},
+						{
+							"key": "top_n",
+							"value": "20"
+						},
+						{
+							"key": "mode",
+							"value": "new"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
