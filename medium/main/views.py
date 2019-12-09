@@ -478,10 +478,15 @@ class ProductRelated(generics.ListCreateAPIView):
             ).order_by("-value_count")[:50]
 
             print("List of Product: ", tmp_prod)
+
+            # List of Products
             tmp_prod = list(map(lambda x: x.product_id, tmp_prod))
             print("IDs Popular: ", tmp_prod)
 
-            return queryset.filter(pk__in=tmp_prod).order_by("?")
+            # We want to exclude product_id from tmp_prod
+            final_prod = [i for i in tmp_prod if i != product_id]
+
+            return queryset.filter(pk__in=final_prod).order_by("?")
 
         return queryset
 

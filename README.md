@@ -46,6 +46,15 @@ bash start.sh
 
 - Please refer to the [following repository](https://github.com/ngochieu642/restore_database.git) to restore the database
 - The database directory can be found [here](https://drive.google.com/open?id=1TfjuI-cYDcnBzjfEAmN4Xv910VMdZUfx). Make sure you have the database directory before running the restore database script.
+- You can copy file to the VPS using `scp`:
+
+- Copy a file
+
+```bash
+scp ./text.txt root@165.22.97.19:~/Medium_API/text.txt
+```
+
+- Copy a folder: Add `-r` flag
 
 ## API Postman
 
