@@ -16,6 +16,13 @@
 
 ### 🏠 [Homepage](https://github.com/DamQuangKhoa/Medium_API#readme)
 
+## Clone the repository
+
+```bash
+git clone https://github.com/DamQuangKhoa/Medium_API.git
+git checkout dev-vps
+```
+
 ## Requirements
 
 - docker
