@@ -445,6 +445,47 @@ class RecommendView(generics.ListCreateAPIView):
             # Get 10 most popular products from EACH Interest category
 
 
+class ProductRelated(generics.ListCreateAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        """
+            This view should return a list of all the purchases for
+            the user as determined by the username portion of the URL.
+            """
+        print("Related Products")
+        queryset = Products.objects.all()
+
+        product_id = self.request.query_params.get("product_id", None)
+
+        if product_id is not None:
+            cate3_id_list = CateProduct.objects.filter(product_id=product_id)
+            cate3_id_list = list(map(lambda x: x.cate3_id_new, cate3_id_list))
+            sample_cate3_id = cate3_id_list[0]
+
+            print("\n\nREALTED CATE 3: ", sample_cate3_id.cate3_id_new)
+
+            list_product_from_cate_3 = CateProduct.objects.filter(
+                cate3_id_new=sample_cate3_id
+            )
+            print("List of Product IDs: ", list_product_from_cate_3)
+            list_product_from_cate_3 = list(
+                map(lambda x: x.product_id, list_product_from_cate_3)
+            )
+
+            tmp_prod = Products.objects.filter(
+                pk__in=list_product_from_cate_3
+            ).order_by("-value_count")[:50]
+
+            print("List of Product: ", tmp_prod)
+            tmp_prod = list(map(lambda x: x.product_id, tmp_prod))
+            print("IDs Popular: ", tmp_prod)
+
+            return queryset.filter(pk__in=tmp_prod).order_by("?")
+
+        return queryset
+
+
 # -----------Category filter--------------
 class CategoryFilter(generics.ListCreateAPIView):
     serializer_class = CategorySerializer

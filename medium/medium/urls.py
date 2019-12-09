@@ -82,4 +82,5 @@ urlpatterns = [
     path("api/v1/users", view.UserFilter.as_view()),
     path("api/v1/users/recommend", view.RecommendView.as_view()),
     path("api/v1/users/survey", view.testPOST),
+    path("api/v1/products/related/", view.ProductRelated.as_view()),
 ]
